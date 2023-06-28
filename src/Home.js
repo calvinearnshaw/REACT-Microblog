@@ -8,18 +8,20 @@ const Home = function() {
         {title: "Web dev top tips", body: "Lorem ipsum dolor sit amet...", author: "Mario", id: 3}
     ]);
 
-    const handleDelete = (id) => {
-        const newBlogs = blogs.filter(blog => blog.id !== id);
-        setBlogs(newBlogs);
-    }
-
     useEffect(function() {
-        console.log('use effect ran');
+        fetch('http://localhost:8000/blogs')
+            .then(res => {
+                return res.json();
+            })
+            .then(data => {
+                console.log(data);
+                setBlogs(data);
+            })
     }, []);
 
     return (
         <div className="home">
-            <BlogList blogs={blogs} title="All Blogs" handleDelete={handleDelete}/>
+            {blogs && <BlogList blogs={blogs} title="All Blogs" />}
         </div>
     );
 }
